@@ -92,7 +92,7 @@ include("../no_etc_unpack.cmake")
         let mut buf: Vec<u8> = Vec::new();
         file.read_to_end(&mut buf)?;
         if buf != ETC_CMAKELISTS_PATCH.as_bytes() {
-            file.write(ETC_CMAKELISTS_PATCH.as_bytes())?;
+            file.write_all(ETC_CMAKELISTS_PATCH.as_bytes())?;
             file.flush()?;
         }
 
@@ -144,25 +144,25 @@ fn main() {
     println!("cargo:rustc-link-search=native={}", lib_dir.display());
     println!("cargo:rustc-link-lib={}=ktx", lib_kind);
 
-    if static_library {
-        // When building statically, the ASTC decoder is a separate static library
-        // (otherwise, it's built inside libktx.so)
-        let astc_lib_path = glob(format!("{}/*astcenc*.*", lib_dir.display()).as_str())
-            .expect("globbing lib/")
-            .next()
-            .expect("[lib]astcenc*.{a,lib} to be present")
-            .expect("the globbed path to be valid");
-        let astc_lib_name = astc_lib_path
-            .file_stem()
-            .expect("this path to refer to a filename")
-            .to_string_lossy();
-        let astc_lib_name = match astc_lib_name.strip_prefix("lib") {
-            Some(stripped) => stripped,
-            None => &astc_lib_name,
-        };
+    // if static_library {
+    //     // When building statically, the ASTC decoder is a separate static library
+    //     // (otherwise, it's built inside libktx.so)
+    //     let astc_lib_path = glob(format!("{}/*astcenc*.*", lib_dir.display()).as_str())
+    //         .expect("globbing lib/")
+    //         .next()
+    //         .expect("[lib]astcenc*.{a,lib} to be present")
+    //         .expect("the globbed path to be valid");
+    //     let astc_lib_name = astc_lib_path
+    //         .file_stem()
+    //         .expect("this path to refer to a filename")
+    //         .to_string_lossy();
+    //     let astc_lib_name = match astc_lib_name.strip_prefix("lib") {
+    //         Some(stripped) => stripped,
+    //         None => &astc_lib_name,
+    //     };
 
-        println!("cargo:rustc-link-lib=static={}", astc_lib_name);
-    }
+    //     println!("cargo:rustc-link-lib=static={}", astc_lib_name);
+    // }
 
     // Linux: GNU C++ standard library
     #[cfg(target_os = "linux")]

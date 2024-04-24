@@ -230,7 +230,7 @@ pub struct Orientations {
 
 bitflags! {
     pub struct PackUastcFlags: u32 {
-        const LEVEL_FASTEST  = sys::ktx_pack_uastc_flag_bits_e_KTX_PACK_UASTC_LEVEL_FASTEST;
+        // const LEVEL_FASTEST  = sys::ktx_pack_uastc_flag_bits_e_KTX_PACK_UASTC_LEVEL_FASTEST;
         const LEVEL_FASTER   = sys::ktx_pack_uastc_flag_bits_e_KTX_PACK_UASTC_LEVEL_FASTER;
         const LEVEL_DEFAULT  = sys::ktx_pack_uastc_flag_bits_e_KTX_PACK_UASTC_LEVEL_DEFAULT;
         const LEVEL_SLOWER   = sys::ktx_pack_uastc_flag_bits_e_KTX_PACK_UASTC_LEVEL_SLOWER;
